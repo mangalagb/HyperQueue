@@ -1,0 +1,21 @@
+@(event: models.Event)
+@import views.html.helper._
+
+<html>
+<head>
+</head>
+<body>
+
+<h1>Topic name : </h1>
+<h1>  @event.topic </h1>
+
+<br><br><br>
+<p>Message</p>
+<p>  @event.message </p>
+
+@helper.form(action = routes.Application.showMainPage()) {
+	<input type='submit' value='Return to main page' /><br><br><br>  
+ }
+
+</body>
+</html>

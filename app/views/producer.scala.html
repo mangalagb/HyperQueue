@@ -1,24 +1,25 @@
-@(role : String)
-@import views.html.helper._
 
+
+@import views.html.helper._
 
 <html>
 <head>
 </head>
 <body>
 
-<h1> @role</h1><br><br><br>
+@helper.form(action = routes.Application.setEvent()) {
+	
+	<p>Choose the event topic</p>
+	 <input type="radio" name="topic" value="flowers" />Flowers<br><br><br>
+	
+	<p>Enter the event message</p>
+   <br><br><br><input type="text" name="eventMessage" /><br><br><br><br>
+   
+ 
+	<input type='submit' value='Submit and return to main page' /><br><br><br>  
 
-<p>Enter the message to be put in the event queue. </p><br><br><br>
-
-@form(action = routes.Application.setEvent()) {
-
-<input name="eventMessage" type="text" maxlength="5000"/>
-
-<br><br><br>
-    <input type="submit" value="Submit">
-      <br><br><br>
 }
+
 
 </body>
 </html>

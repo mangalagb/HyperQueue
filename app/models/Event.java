@@ -3,7 +3,7 @@ package models;
 public class Event
 {
 	public String message;
-	//public String topic;
+	public String topic;
 	
 	public String getMessage()
 	{
@@ -15,10 +15,15 @@ public class Event
 		message = s;
 	}
 	
-//	public String getTopic()
-//	{
-//		return topic;
-//	}
+	public String getTopic()
+	{
+		return topic;
+	}
+	
+	public void setTopic(String s)
+	{
+		topic = s;
+	}
 	
 	
 }

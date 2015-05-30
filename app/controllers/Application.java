@@ -15,7 +15,8 @@ import play.mvc.Result;
 
 
 public class Application extends Controller {
-
+	
+	Queue<Event> myQueue = new LinkedList<Event>();
     
     public Result displayHomePage()
     {
@@ -34,29 +35,58 @@ public class Application extends Controller {
 	String role = dynamicForm.get("Role");
 	
 		if(role.equals("Producer"))
-		{
-			System.out.println(role);
-			return ok(producer.render(role));
+		{	
+			Form<Event> userForm = Form.form(Event.class);
+			return ok(producer.render());
 			
 		}
 		else
-			return ok(consumer.render("i am a consumer"));
+			return ok(consumer.render());
     }
     
     public Result setEvent() throws IOException
     {
+    	// For Producer
     	DynamicForm dynamicForm = Form.form().bindFromRequest();
     	
-    	String myEvent = dynamicForm.get("eventMessage");
+    	String eventMessage = dynamicForm.get("eventMessage");
+    	String topic = dynamicForm.get("topic");
     	
-    	Queue<Event> myQueue = new LinkedList<Event>();
+    	Event event = new Event();
+    	event.setMessage(eventMessage);
+    	event.setTopic(topic);
+
+    	myQueue.add(event);
+    	return redirect("/");
     	
-    	Event ev = new Event();
-    	ev.setMessage(myEvent);
+    }
+    
+    public Result getEvent() throws IOException
+    {
+    	//For Consumer
     	
-    	myQueue.add(ev);
+    	DynamicForm dynamicForm = Form.form().bindFromRequest();
     	
-    	return ok(general.render(myEvent));
+    	String topic = dynamicForm.get("topic");
+    	
+    	
+    	//implement queue searching based on topic here
+    	Event event = new Event();
+    	
+    	if(!myQueue.isEmpty())
+    	{
+    		event = myQueue.peek();
+    	}
+    
+    	
+    	return ok(displayevent.render(event));
+    	
+    }
+    
+    public Result showMainPage()
+    {
+    	return redirect("/");
+    	
     }
 
 }

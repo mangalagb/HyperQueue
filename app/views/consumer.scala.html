@@ -1,15 +1,20 @@
-@(message : String)
 @import views.html.helper._
 
 
 <html>
 <head>
-
 </head>
 <body>
 
+@helper.form(action = routes.Application.getEvent()) {
+	
+	<p>Choose the event topic</p>
+	 <input type="radio" name="topic" value="flowers" />Flowers<br><br><br>
+	
+	
+	<input type='submit' value='Submit and view message' /><br><br><br>  
 
-<h1> @message</h1><br><br><br>
+}
 
 </body>
 </html>

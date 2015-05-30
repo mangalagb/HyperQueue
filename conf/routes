@@ -10,4 +10,8 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 POST    /                           controllers.Application.roleSelector()
 
-POST    /consumer                           controllers.Application.setEvent()
+POST    /producer                           controllers.Application.setEvent()
+
+GET    /consumer                           controllers.Application.getEvent()
+
+GET    /showMainPage                          controllers.Application.showMainPage()
