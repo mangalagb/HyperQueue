@@ -15,3 +15,6 @@ POST    /producer                           controllers.Application.setEvent()
 GET    /consumer                           controllers.Application.getEvent()
 
 GET    /showMainPage                          controllers.Application.showMainPage()
+
+#GET     /flowers                         controllers.Application.publishInFlowers()
+#POST 	/								controllers.Application.publishInFlowers()

@@ -17,7 +17,14 @@ import play.mvc.With;
 //@With(HttpsAction.class)
 public class Application extends Controller {
 	
-	Queue<Event> myQueue = new LinkedList<Event>();
+	//for topic category "flowers"
+	Queue<Event> queue1 = new LinkedList<Event>(); 
+	
+	//for topic category "animals"
+	Queue<Event> queue2 = new LinkedList<Event>();
+	
+	//for topic category "birds"
+	Queue<Event> queue3 = new LinkedList<Event>();
     
     public Result displayHomePage()
     {
@@ -37,7 +44,6 @@ public class Application extends Controller {
 	
 		if(role.equals("Producer"))
 		{	
-			Form<Event> userForm = Form.form(Event.class);
 			return ok(producer.render());
 			
 		}
@@ -56,8 +62,19 @@ public class Application extends Controller {
     	Event event = new Event();
     	event.setMessage(eventMessage);
     	event.setTopic(topic);
-
-    	myQueue.add(event);
+    	
+    	if(topic.equals("flowers"))
+    	{
+    		queue1.add(event);
+    	}
+    	else if(topic.equals("animals"))
+    	{
+    		queue2.add(event);
+    	}
+    	else if(topic.equals("birds"))
+    	{
+    		queue3.add(event);
+    	}
     	return redirect("/");
     	
     }
@@ -74,9 +91,17 @@ public class Application extends Controller {
     	//implement queue searching based on topic here
     	Event event = new Event();
     	
-    	if(!myQueue.isEmpty())
+    	if(topic.equals("flowers") && !queue1.isEmpty())
     	{
-    		event = myQueue.peek();
+    		event = queue1.peek();
+    	}
+    	else if(topic.equals("animals") && !queue2.isEmpty())
+    	{
+    		event = queue2.peek();
+    	}
+    	else if(topic.equals("birds") && !queue3.isEmpty())
+    	{
+    		event = queue3.peek();
     	}
     
     	
@@ -89,5 +114,27 @@ public class Application extends Controller {
     	return redirect("/");
     	
     }
-
+    
+//    public Result publishInFlowers() throws IOException
+//    {
+//    	return ok(newproducer.render());
+//    }
+//    
+//    public Result addToFlowerQueue() throws IOException
+//    {
+//    	// For Producer
+//    	DynamicForm dynamicForm = Form.form().bindFromRequest();
+//    	
+//    	String eventMessage = dynamicForm.get("eventMessage");
+//    	String topic = "flowers";
+//    	
+//    	Event event = new Event();
+//    	event.setMessage(eventMessage);
+//    	event.setTopic(topic);
+//
+//    	queue1.add(event);
+//    	
+//    	return redirect("/");
+//    	
+//    }
 }
