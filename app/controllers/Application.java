@@ -12,8 +12,9 @@ import play.data.Form;
 import views.html.*;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 
-
+//@With(HttpsAction.class)
 public class Application extends Controller {
 	
 	Queue<Event> myQueue = new LinkedList<Event>();

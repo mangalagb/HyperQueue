@@ -2,3 +2,8 @@ This is your new Play application
 =================================
 
 This file will be packaged with your application, when using `activator dist`.
+
+
+To run on https mode,
+1) Run "activator"
+2) Run "start -Dhttp.port=disabled -Dhttps.port=4430"
