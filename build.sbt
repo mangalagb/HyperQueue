@@ -12,6 +12,7 @@ libraryDependencies ++= Seq(
   javaWs
 )
 
+libraryDependencies += "org.webjars" % "bootstrap" % "3.3.4"
 
 // Play provides two styles of routers, one expects its actions to be injected, the
 // other, legacy style, accesses its actions statically.

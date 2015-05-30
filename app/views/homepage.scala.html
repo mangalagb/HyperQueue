@@ -1,0 +1,29 @@
+@(message : String)
+@import views.html.helper._
+
+
+<html>
+<head>
+
+</head>
+<body>
+
+
+<h1> @message</h1><br><br><br>
+
+
+@form(action = routes.Application.roleSelector()) {
+     
+   <br><br><br>
+    <input type="submit" value="Choose your role">
+      <br><br><br>
+   
+	
+	
+	<input type="radio" name="Role" value= "Producer" >Producer<br><br>
+	<input type="radio" name="Role" value= "Consumer" >Consumer<br><br>
+	
+	}
+
+</body>
+</html>

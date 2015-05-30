@@ -1,0 +1,24 @@
+@(role : String)
+@import views.html.helper._
+
+
+<html>
+<head>
+</head>
+<body>
+
+<h1> @role</h1><br><br><br>
+
+<p>Enter the message to be put in the event queue. </p><br><br><br>
+
+@form(action = routes.Application.setEvent()) {
+
+<input name="eventMessage" type="text" maxlength="5000"/>
+
+<br><br><br>
+    <input type="submit" value="Submit">
+      <br><br><br>
+}
+
+</body>
+</html>
