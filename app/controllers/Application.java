@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,8 +12,11 @@ import play.data.DynamicForm;
 import play.data.Form;
 import views.html.*;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.With;
+
+import java.math.BigInteger;
 
 //@With(HttpsAction.class)
 public class Application extends Controller {
@@ -23,7 +27,7 @@ public class Application extends Controller {
 	//for topic category "animals"
 	Queue<Event> queue2 = new LinkedList<Event>();
 	
-	//for topic category "birds"
+	//for topic category "new user"
 	Queue<Event> queue3 = new LinkedList<Event>();
     
     public Result displayHomePage()
@@ -42,6 +46,8 @@ public class Application extends Controller {
 	
 	String role = dynamicForm.get("Role");
 	
+	
+
 		if(role.equals("Producer"))
 		{	
 			return ok(producer.render());
@@ -53,6 +59,7 @@ public class Application extends Controller {
     
     public Result setEvent() throws IOException
     {
+    	
     	// For Producer
     	DynamicForm dynamicForm = Form.form().bindFromRequest();
     	
@@ -71,7 +78,7 @@ public class Application extends Controller {
     	{
     		queue2.add(event);
     	}
-    	else if(topic.equals("birds"))
+    	else if(topic.equals("newuser"))
     	{
     		queue3.add(event);
     	}
@@ -82,6 +89,20 @@ public class Application extends Controller {
     public Result getEvent() throws IOException
     {
     	//For Consumer
+    	
+    	 
+    	 
+    	
+    	 SecureRandom random = new SecureRandom();
+
+    	
+    	String s = new BigInteger(130, random).toString(32);
+    	
+    	session("connected", s);
+    	
+    	String user = session("connected");
+    	System.out.println(user);
+    	  
     	
     	DynamicForm dynamicForm = Form.form().bindFromRequest();
     	
@@ -99,11 +120,10 @@ public class Application extends Controller {
     	{
     		event = queue2.peek();
     	}
-    	else if(topic.equals("birds") && !queue3.isEmpty())
+    	else if(topic.equals("newuser") && !queue3.isEmpty())
     	{
     		event = queue3.peek();
     	}
-    
     	
     	return ok(displayevent.render(event));
     	
