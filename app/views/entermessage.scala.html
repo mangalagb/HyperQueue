@@ -1,0 +1,26 @@
+@(topic : String)
+
+@import views.html.helper._
+
+<html>
+<head>
+</head>
+<body>
+
+<h1>@topic</h1> 
+@helper.form(action = routes.Application.createEvent()) {
+	
+	
+	<p>Enter the event message</p>
+   <br><br><br><input type="text" name="eventMessage" /><br><br><br><br>
+   
+   <input type="hidden" name="topicName" value=@topic>
+   
+ 
+	<input type='submit' value='Submit event to topic queue' /><br><br><br>  
+
+}
+
+
+</body>
+</html>

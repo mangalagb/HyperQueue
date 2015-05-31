@@ -27,44 +27,22 @@ public class Application extends Controller {
 	//for topic category "animals"
 	Queue<Event> queue2 = new LinkedList<Event>();
 	
-	//for topic category "new user"
+	//for topic category "birds"
 	Queue<Event> queue3 = new LinkedList<Event>();
     
-    public Result displayHomePage()
-    {
-    	
-    	String message = "Hello World!";
-    	
-    	return ok(homepage.render(message));
-    }
-
-
-    public Result roleSelector() throws IOException
-    {
-	 // Get the submitted form data from the request object, and run validation.
-	DynamicForm dynamicForm = Form.form().bindFromRequest();
-	
-	String role = dynamicForm.get("Role");
+	public Result extractTopic(String topic) 
+	{
+		
+		return ok(entermessage.render(topic));
+		
+	}
 	
 	
-
-		if(role.equals("Producer"))
-		{	
-			return ok(producer.render());
-			
-		}
-		else
-			return ok(consumer.render());
-    }
-    
-    public Result setEvent() throws IOException
-    {
-    	
-    	// For Producer
-    	DynamicForm dynamicForm = Form.form().bindFromRequest();
-    	
+	public Result createEvent() 
+	{
+		DynamicForm dynamicForm = Form.form().bindFromRequest();
     	String eventMessage = dynamicForm.get("eventMessage");
-    	String topic = dynamicForm.get("topic");
+    	String topic = dynamicForm.get("topicName");
     	
     	Event event = new Event();
     	event.setMessage(eventMessage);
@@ -78,36 +56,26 @@ public class Application extends Controller {
     	{
     		queue2.add(event);
     	}
-    	else if(topic.equals("newuser"))
+    	else if(topic.equals("birds"))
     	{
     		queue3.add(event);
     	}
-    	return redirect("/");
+    	return ok(general.render("Your event has been added to the topic"));
     	
-    }
-    
-    public Result getEvent() throws IOException
-    {
-    	//For Consumer
-    	
-    	 
-    	 
-    	
-    	 SecureRandom random = new SecureRandom();
+    	//localhost:9443?topic="queue1",session_id=Number
+		
+	}
 
-    	
-    	String s = new BigInteger(130, random).toString(32);
-    	
-    	session("connected", s);
-    	
-    	String user = session("connected");
-    	System.out.println(user);
+	public Result displayEvent(String topic)
+	{
+//		SecureRandom random = new SecureRandom();
+//		String s = new BigInteger(130, random).toString(32);
+//    	
+//    	session("connected", s);
+//    	
+//    	String user = session("connected");
+//    	System.out.println(user);
     	  
-    	
-    	DynamicForm dynamicForm = Form.form().bindFromRequest();
-    	
-    	String topic = dynamicForm.get("topic");
-    	
     	
     	//implement queue searching based on topic here
     	Event event = new Event();
@@ -120,41 +88,11 @@ public class Application extends Controller {
     	{
     		event = queue2.peek();
     	}
-    	else if(topic.equals("newuser") && !queue3.isEmpty())
+    	else if(topic.equals("birds") && !queue3.isEmpty())
     	{
     		event = queue3.peek();
     	}
     	
     	return ok(displayevent.render(event));
-    	
-    }
-    
-    public Result showMainPage()
-    {
-    	return redirect("/");
-    	
-    }
-    
-//    public Result publishInFlowers() throws IOException
-//    {
-//    	return ok(newproducer.render());
-//    }
-//    
-//    public Result addToFlowerQueue() throws IOException
-//    {
-//    	// For Producer
-//    	DynamicForm dynamicForm = Form.form().bindFromRequest();
-//    	
-//    	String eventMessage = dynamicForm.get("eventMessage");
-//    	String topic = "flowers";
-//    	
-//    	Event event = new Event();
-//    	event.setMessage(eventMessage);
-//    	event.setTopic(topic);
-//
-//    	queue1.add(event);
-//    	
-//    	return redirect("/");
-//    	
-//    }
+	}
 }
