@@ -62,9 +62,7 @@ public class Application extends Controller {
     	{
     		queue3.add(event);
     	}
-    	return ok(general.render("Your event has been added to the topic"));
-    	
-    	//localhost:9443?topic="queue1",session_id=Number
+    	return ok(addMoreEvents.render(topic));
 		
 	}
 

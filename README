@@ -1,9 +1,95 @@
-This is your new Play application
+
+HyperQueue
 =================================
 
-This file will be packaged with your application, when using `activator dist`.
+This project uses
+- Java 8
+- Play 2.4
+Make sure you have support for these before running the app.
 
-
-To run on https mode,
+To run the app,
+1) Go to the directory where the app is stored
 1) Run "activator"
 2) Run "start -Dhttp.port=disabled -Dhttps.port=4430"
+
+To run it as a standalone application,
+
+1) Go to app/target/universal. There you will find 
+	a ZIP file. It contains all JAR files needed to run the application.
+	
+2) Unzip the archive. If you are running it on Linux, the file does
+	 not retain Unix file permissions so when the file is expanded 
+	 the start script will be required to be set as an executable. Just type
+	 chmod +x /path/to/bin/<project-name>
+	 
+3) Execute it as:
+	 cd path/to/bin/
+	 ./app
+--------------------------------------------------------------------------------------
+Implemented artifacts
+=================================
+
+Producer Implementation
+-----------------------
+
+Already Implemented
+1) Implemented https as the transport protocol. (By default, Play generates 
+	itself a self signed certificate)
+	
+2) Based on the Url, the broker understands that the request corresponds 
+	to a producer’s desire to add an event to the topic.
+	
+3) The event itself is encapsulated as an object. (See app/models/Event.java)
+
+TODO
+- a redirect button after posting a event to add more events
+
+
+
+Consumer Implementation
+-------------------------
+
+Already Implemented
+
+1) Consumers connect to brokers via GET requests and fetch events from them 
+	so that a client can process these events and act on them (In this case,
+	just display the event message) .
+	
+2) When a consumer connects to a broker for the first time it is assigned a
+	 session ID.(Since PLAY is a stateless application, Session data is not 
+	 stored by the server but is added to each subsequent HTTP 
+	 request, using the cookie mechanism). This id is then verified at each 
+	 subsequent GET requests to identify the user and maintain state information.
+	 
+TODO
+
+- If a consumer connects to a broker and it has consumed the latest event in the queue, (ie: no more new events
+to consume) then the broker will hold onto the connection for a while and close it if no events arrive within a 
+certain timeout period. The consumer will reissue the GET request after the connection is closed; and so on. 
+
+
+Broker Implementation
+-------------------------
+
+1) Broker holds all events related to a topic in memory. It also stores 
+	session ids and their progress through these events(in a HashTable).
+
+2) There are mutiple topics with the broker (In this case, 
+	3 topics - flowers, animals and birds). 
+
+3) Multiple producers can connect to a single broker and they
+	can all publish events simultaneously.
+
+4) Multiple consumers can also consume data simultaneously. Their
+	progress is tracked by using session ids.
+	
+TODO
+Extra “Leetness” challenge: if a consumer is connecting for the first time, without a session ID, it can specify
+to the broker whether it wants to begin consumption from the oldest offset in the queue (in the above case,
+0), or the newest offset in the queue (in the above case 3) without actually sending the offset itself, simply by
+sending an HTTP header like O FFSET with a value of either 1
+(meaning oldest offset in the queue) or 1
+(meaning the newest offset in the queue). Implement this for extra leetness points!
+
+--------------------------------------------------------------------------------------
+	
