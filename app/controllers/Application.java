@@ -22,15 +22,15 @@ import java.math.BigInteger;
 public class Application extends Controller {
 	
 	//for topic category "flowers"
-	Queue<Event> queue1 = new LinkedList<Event>(); 
+	LinkedList<Event> queue1 = new LinkedList<Event>(); 
 	
 	//for topic category "animals"
-	Queue<Event> queue2 = new LinkedList<Event>();
+	LinkedList<Event> queue2 = new LinkedList<Event>();
 	
 	//for topic category "birds"
-	Queue<Event> queue3 = new LinkedList<Event>();
+	LinkedList<Event> queue3 = new LinkedList<Event>();
 	
-	Hashtable<String,String> sessionId = new Hashtable<String,String>();
+	Hashtable<String,TopicQueuePosition> sessionId = new Hashtable<String,TopicQueuePosition>();
     
 	public Result extractTopic(String topic) 
 	{
@@ -70,11 +70,12 @@ public class Application extends Controller {
 
 	public Result displayEvent(String topic)
 	{
+		String currentSessionId = session("connected");
 		
-    	
-    	if(sessionId.containsKey(session("connected")))
+    	if(currentSessionId != null && sessionId.containsKey(currentSessionId))
     	{
-    		System.out.println("Welcome back");
+    		System.out.println("Welcome back. session id :  "+currentSessionId+
+    				"pos :  "+sessionId.get(currentSessionId).showPositions());
     	}
     	else
     	{
@@ -83,27 +84,60 @@ public class Application extends Controller {
         	
         	session("connected", s);
         	
-        	sessionId.put(s, "returning user");
+        	TopicQueuePosition position = new TopicQueuePosition();
+        	position.setQueue1Position(0);
+        	position.setQueue2Position(0);
+        	position.setQueue3Position(0);
         	
-        	String user = session("connected");
-        	System.out.println(user);
+        	sessionId.put(s, position);
+        	
+        	currentSessionId = session("connected");
+       
+        	System.out.println("New session id :  "+currentSessionId+" pos :  "+sessionId.get(currentSessionId).showPositions());
     	}
-    	  
     	
-    	//implement queue searching based on topic here
+    	// search queue for appropriate event to display
     	Event event = new Event();
     	
     	if(topic.equals("flowers") && !queue1.isEmpty())
     	{
-    		event = queue1.peek();
+    		TopicQueuePosition currentPosition = sessionId.get(currentSessionId);
+    		int queue1Position = currentPosition.getQueue1Position();
+    		
+    		event = queue1.get(queue1Position);
+    		
+    		//Update the new position of the user after viewing the event
+    		currentPosition.setQueue1Position(queue1Position+1);
+    		
+    		//Update the HashTable to reflect the new position
+    		sessionId.put(currentSessionId, currentPosition);
+    		
     	}
     	else if(topic.equals("animals") && !queue2.isEmpty())
     	{
-    		event = queue2.peek();
+    		TopicQueuePosition currentPosition = sessionId.get(currentSessionId);
+    		int queue2Position = currentPosition.getQueue2Position();
+    		
+    		event = queue2.get(queue2Position);
+    		
+    		//Update the new position of the user after viewing the event
+    		currentPosition.setQueue2Position(queue2Position+1);
+    		
+    		//Update the HashTable to reflect the new position
+    		sessionId.put(currentSessionId, currentPosition);
     	}
     	else if(topic.equals("birds") && !queue3.isEmpty())
     	{
-    		event = queue3.peek();
+    		TopicQueuePosition currentPosition = sessionId.get(currentSessionId);
+    		int queue3Position = currentPosition.getQueue3Position();
+    		
+    		event = queue3.get(queue3Position);
+    		
+    		//Update the new position of the user after viewing the event
+    		currentPosition.setQueue3Position(queue3Position+1);
+    		
+    		//Update the HashTable to reflect the new position
+    		sessionId.put(currentSessionId, currentPosition);
     	}
     	
     	return ok(displayevent.render(event));
