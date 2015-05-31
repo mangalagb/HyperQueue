@@ -82,12 +82,10 @@ Already Implemented
 	 request, using the cookie mechanism). This id is then verified at each 
 	 subsequent GET requests to identify the user and maintain state information.
 	 
-TODO
-
-- If a consumer connects to a broker and it has consumed the latest event in the queue, (ie: no more new events
-to consume) then the broker will hold onto the connection for a while and close it if no events arrive within a 
-certain timeout period. The consumer will reissue the GET request after the connection is closed; and so on. 
-
+3) If the session timeout period passes(default = 30 seconds .can be changed) ,
+	the session is terminated with a message. To start a new session, the 
+	user has to retype the url.
+	 
 
 Broker Implementation
 -------------------------
