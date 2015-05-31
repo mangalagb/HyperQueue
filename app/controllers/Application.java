@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -18,7 +19,6 @@ import play.mvc.With;
 
 import java.math.BigInteger;
 
-//@With(HttpsAction.class)
 public class Application extends Controller {
 	
 	//for topic category "flowers"
@@ -29,6 +29,8 @@ public class Application extends Controller {
 	
 	//for topic category "birds"
 	Queue<Event> queue3 = new LinkedList<Event>();
+	
+	Hashtable<String,String> sessionId = new Hashtable<String,String>();
     
 	public Result extractTopic(String topic) 
 	{
@@ -68,13 +70,24 @@ public class Application extends Controller {
 
 	public Result displayEvent(String topic)
 	{
-//		SecureRandom random = new SecureRandom();
-//		String s = new BigInteger(130, random).toString(32);
-//    	
-//    	session("connected", s);
-//    	
-//    	String user = session("connected");
-//    	System.out.println(user);
+		
+    	
+    	if(sessionId.containsKey(session("connected")))
+    	{
+    		System.out.println("Welcome back");
+    	}
+    	else
+    	{
+    		SecureRandom random = new SecureRandom();
+    		String s = new BigInteger(130, random).toString(32);
+        	
+        	session("connected", s);
+        	
+        	sessionId.put(s, "returning user");
+        	
+        	String user = session("connected");
+        	System.out.println(user);
+    	}
     	  
     	
     	//implement queue searching based on topic here
