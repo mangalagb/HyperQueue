@@ -4,15 +4,22 @@
 
 <html>
 <head>
+
+<link rel='stylesheet' href='@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.min.css"))'>
+<script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))'></script>
+
 </head>
 <body>
+<div class="container" style="text-align: center">
 
-<h1>@topic</h1> 
+<h1>@topic Topic Page</h1>
+
+<br><br><br> 
 @helper.form(action = routes.Application.createEvent()) {
 	
 	
 	<p>Enter the event message</p>
-   <br><br><br><input type="text" name="eventMessage" /><br><br><br><br>
+   <br><br><input type="text" name="eventMessage" /><br><br><br><br>
    
    <input type="hidden" name="topicName" value=@topic>
    
@@ -20,7 +27,7 @@
 	<input type='submit' value='Submit event to topic queue' /><br><br><br>  
 
 }
-
+</div>
 
 </body>
 </html>
