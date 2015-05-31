@@ -26,6 +26,27 @@ To run it as a standalone application,
 	 cd path/to/bin/
 	 ./app
 --------------------------------------------------------------------------------------
+
+Anatomy of HyperQueue
+=================================
+
+- HyperQueue has support for three topics - flowers, animals and birds
+
+- Users can post/view threads on these topics.
+
+- If you are a producer and want to add an event on the flowers topic, type
+	https://localhost:4430/flowers
+	- You will be taken to a page where you can post messages to the topic.
+	- To post on a different topic, type
+		https://localhost:4430/topicname  
+		where topicname can be any of the three available topics
+		
+- If you are a producer and want to view events in a particular topic, type
+	https://localhost:4430/view/topicname
+	where topicname can be any of the three available topics
+
+--------------------------------------------------------------------------------------
+
 Implemented artifacts
 =================================
 
