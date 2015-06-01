@@ -82,7 +82,7 @@ Already Implemented
 	 request, using the cookie mechanism). This id is then verified at each 
 	 subsequent GET requests to identify the user and maintain state information.
 	 
-3) If the session timeout period passes(default = 30 seconds .can be changed) ,
+3) If the session timeout period passes(default = 1 minute.can be changed) ,
 	the session is terminated with a message. To start a new session, the 
 	user has to retype the url.
 	 
@@ -101,6 +101,15 @@ Broker Implementation
 
 4) Multiple consumers can also consume data simultaneously. Their
 	progress is tracked by using session ids.
+	
+	
+Extra Implementation
+-------------------------
+
+1) Added twitter bootstrap library for better css.
+
+--------------------------------------------------------------------------------------
+
 	
 TODO
 Extra “Leetness” challenge: if a consumer is connecting for the first time, without a session ID, it can specify

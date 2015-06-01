@@ -110,8 +110,8 @@ public class Application extends Controller {
 
 			// To change the session duration time, change this equation.
 			// The system time is in milliseconds.
-			// This equation evaluates to 30,000 milliseconds ie. 30 seconds
-			if (updatedTime < 0.5 * 60 * 1000) {
+			// This equation evaluates to 60,000 milliseconds ie. 1 minute
+			if (updatedTime < 1 * 60 * 1000) {
 				System.out.println("Welcome back. session id :  "
 						+ currentSessionId + "pos :  "
 						+ sessionId.get(currentSessionId).showPositions());
@@ -122,7 +122,8 @@ public class Application extends Controller {
 				// To start a new session, type the url again.
 				session().clear();
 				userSessionDurationTime = System.currentTimeMillis();
-				return ok("Bye. Your session has timed out (Default session time = 30 seconds). Type the url again to start a new session");
+				return ok("Bye. Your session has timed out (Default session time = 1 minute). "
+						+ "Type the url again to start a new session");
 
 			}
 
