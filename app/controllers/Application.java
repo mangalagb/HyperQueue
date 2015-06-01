@@ -8,6 +8,7 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.TimerTask;
 
 import models.*;
 import play.Play;
@@ -20,6 +21,9 @@ import play.mvc.Result;
 import play.mvc.With;
 
 import java.math.BigInteger;
+import java.awt.Toolkit;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @author gowri 
@@ -106,7 +110,6 @@ public class Application extends Controller {
 			// Add current time to the session time value.
 			long updatedTime = System.currentTimeMillis()
 					- userSessionDurationTime;
-			System.out.println("Updated time is : " + updatedTime);
 
 			// To change the session duration time, change this equation.
 			// The system time is in milliseconds.
@@ -133,8 +136,6 @@ public class Application extends Controller {
 
 			userSessionDurationTime = System.currentTimeMillis();
 
-			System.out.println("New time is : " + userSessionDurationTime);
-
 			SecureRandom random = new SecureRandom();
 			String s = new BigInteger(130, random).toString(32);
 
@@ -158,45 +159,143 @@ public class Application extends Controller {
 		// search queue for appropriate event to display
 		Event event = new Event();
 
-		if (topic.equals("flowers") && !queue1.isEmpty()) {
+		if (topic.equals("flowers")) {
 			TopicQueuePosition currentPosition = sessionId
 					.get(currentSessionId);
 			int queue1Position = currentPosition.getQueue1Position();
 
-			event = queue1.get(queue1Position);
+			if (queue1Position == queue1.size() || queue1.isEmpty()) {
 
-			// Update the new position of the user after viewing the event
-			currentPosition.setQueue1Position(queue1Position + 1);
+				// call reminderBeep every 2 seconds
+				// ReminderBeep basically is a java timer that waits for a new
+				// event to come in.
+				// Here, it waits for 20 seconds
+				new ReminderBeep(2);
 
-			// Update the HashTable to reflect the new position
-			sessionId.put(currentSessionId, currentPosition);
+				if (queue1Position < queue1.size()) {
+					queue1Position += 1;
+					event = queue1.get(queue1Position);
 
-		} else if (topic.equals("animals") && !queue2.isEmpty()) {
+					// Update the new position of the user after viewing the
+					// event
+					currentPosition.setQueue1Position(queue1Position);
+
+					// Update the HashTable to reflect the new position
+					sessionId.put(currentSessionId, currentPosition);
+
+					return ok(displayevent.render(event, "yes"));
+				}
+
+			}
+
+			else {
+				event = queue1.get(queue1Position);
+
+				// Update the new position of the user after viewing the event
+				currentPosition.setQueue1Position(queue1Position + 1);
+
+				// Update the HashTable to reflect the new position
+				sessionId.put(currentSessionId, currentPosition);
+
+				return ok(displayevent.render(event, "no"));
+
+			}
+
+		} else if (topic.equals("animals")) {
+			
 			TopicQueuePosition currentPosition = sessionId
 					.get(currentSessionId);
 			int queue2Position = currentPosition.getQueue2Position();
 
-			event = queue2.get(queue2Position);
+			if (queue2Position == queue2.size() || queue2.isEmpty()) {
 
-			// Update the new position of the user after viewing the event
-			currentPosition.setQueue2Position(queue2Position + 1);
+				// call reminderBeep every 2 seconds
+				// ReminderBeep basically is a java timer that waits for a new
+				// event to come in.
+				// Here, it waits for 20 seconds
+				new ReminderBeep(2);
 
-			// Update the HashTable to reflect the new position
-			sessionId.put(currentSessionId, currentPosition);
-		} else if (topic.equals("birds") && !queue3.isEmpty()) {
+				if (queue2Position < queue2.size()) {
+					queue2Position += 1;
+					event = queue2.get(queue2Position);
+
+					// Update the new position of the user after viewing the
+					// event
+					currentPosition.setQueue2Position(queue2Position);
+
+					// Update the HashTable to reflect the new position
+					sessionId.put(currentSessionId, currentPosition);
+
+					return ok(displayevent.render(event, "yes"));
+				}
+
+			}
+
+			else {
+				event = queue2.get(queue2Position);
+
+				// Update the new position of the user after viewing the event
+				currentPosition.setQueue2Position(queue2Position + 1);
+
+				// Update the HashTable to reflect the new position
+				sessionId.put(currentSessionId, currentPosition);
+
+				return ok(displayevent.render(event, "no"));
+
+		} 
+		
+		
+		
+		}	
+		
+		
+		
+		else if (topic.equals("birds")) {
+			
+			
 			TopicQueuePosition currentPosition = sessionId
 					.get(currentSessionId);
-			int queue3Position = currentPosition.getQueue3Position();
+			int queue3Position = currentPosition.getQueue1Position();
 
-			event = queue3.get(queue3Position);
+			if (queue3Position == queue3.size() || queue3.isEmpty()) {
 
-			// Update the new position of the user after viewing the event
-			currentPosition.setQueue3Position(queue3Position + 1);
+				// call reminderBeep every 2 seconds
+				// ReminderBeep basically is a java timer that waits for a new
+				// event to come in.
+				// Here, it waits for 20 seconds
+				new ReminderBeep(2);
 
-			// Update the HashTable to reflect the new position
-			sessionId.put(currentSessionId, currentPosition);
+				if (queue3Position < queue3.size()) {
+					queue3Position += 1;
+					event = queue3.get(queue3Position);
+
+					// Update the new position of the user after viewing the
+					// event
+					currentPosition.setQueue3Position(queue3Position);
+
+					// Update the HashTable to reflect the new position
+					sessionId.put(currentSessionId, currentPosition);
+
+					return ok(displayevent.render(event, "yes"));
+				}
+
+			}
+
+			else {
+				event = queue3.get(queue3Position);
+
+				// Update the new position of the user after viewing the event
+				currentPosition.setQueue3Position(queue3Position + 1);
+
+				// Update the HashTable to reflect the new position
+				sessionId.put(currentSessionId, currentPosition);
+
+				return ok(displayevent.render(event, "no"));
+
+			}
 		}
 
-		return ok(displayevent.render(event));
+		return ok(displayevent.render(event, "no"));
 	}
+
 }

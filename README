@@ -108,16 +108,29 @@ Extra Implementation
 
 1) Added twitter bootstrap library for better css.
 
---------------------------------------------------------------------------------------
 
+
+The other branch "Dynamic Consumer"
+--------------------------------------
+
+I made a separate branch to test out a functionality
+
+Already Implemented in this branch
+
+- When a consumer no longer has events in the queue, he waits for 20seconds.
+- If an event arrives at this time, he can refresh his page to view the new event	
+
+To Implement
+
+- When a new event arrives when a consumer is waiting, his view should refresh automatically.
+
+- The problem with this is that when PLAY loads a page, it stores temporary variables
+	in memory. Those variables are not refreshed until user presses refresh.
 	
-TODO
-Extra “Leetness” challenge: if a consumer is connecting for the first time, without a session ID, it can specify
-to the broker whether it wants to begin consumption from the oldest offset in the queue (in the above case,
-0), or the newest offset in the queue (in the above case 3) without actually sending the offset itself, simply by
-sending an HTTP header like O FFSET with a value of either 1
-(meaning oldest offset in the queue) or 1
-(meaning the newest offset in the queue). Implement this for extra leetness points!
+- The solution is to use AJAX queries to force auto refresh. I did not implement
+this due to a lack of time. 
+
+
 
 --------------------------------------------------------------------------------------
 	

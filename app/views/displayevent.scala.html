@@ -1,4 +1,4 @@
-@(event: models.Event)
+@(event: models.Event, reload:String)
 @import views.html.helper._
 
 <html>
@@ -6,6 +6,11 @@
 </head>
 <body>
 
+@if(reload == "no") {
+  <script type="text/javascript" charset="utf-8"> 
+  	alert(reload);
+   </script>
+} 
 <div class="container" style="text-align: center">
 <h1>Topic name : @event.topic </h1>
 
