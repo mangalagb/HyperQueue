@@ -11,6 +11,8 @@ To run the app,
 1) Go to the directory where the app is stored
 1) Run "activator"
 2) Run "start -Dhttp.port=disabled -Dhttps.port=4430"
+(The https mode only works when the application is run with activator ie. PLAY.
+If you run it as a standalone application, use localhost:9000 )
 
 To run it as a standalone application,
 
