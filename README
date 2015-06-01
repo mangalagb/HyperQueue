@@ -14,8 +14,8 @@ To run the app,
 
 To run it as a standalone application,
 
-1) Go to app/target/universal. There you will find 
-	a ZIP file. It contains all JAR files needed to run the application.
+1) There is a zip file called app-1.0-SNAPSHOT.zip with the commit.
+  It contains all JAR files needed to run the application.
 	
 2) Unzip the archive. If you are running it on Linux, the file does
 	 not retain Unix file permissions so when the file is expanded 
