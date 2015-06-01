@@ -109,15 +109,3 @@ Extra Implementation
 1) Added twitter bootstrap library for better css.
 
 --------------------------------------------------------------------------------------
-
-	
-TODO
-Extra “Leetness” challenge: if a consumer is connecting for the first time, without a session ID, it can specify
-to the broker whether it wants to begin consumption from the oldest offset in the queue (in the above case,
-0), or the newest offset in the queue (in the above case 3) without actually sending the offset itself, simply by
-sending an HTTP header like O FFSET with a value of either 1
-(meaning oldest offset in the queue) or 1
-(meaning the newest offset in the queue). Implement this for extra leetness points!
-
---------------------------------------------------------------------------------------
-	
